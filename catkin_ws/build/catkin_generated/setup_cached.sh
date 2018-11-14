@@ -23,5 +23,9 @@ export TURTLEBOT_STDR_MAP_FILE="/home/nvidia/workspace/RoboND-HomeServiceRobot/c
 export TURTLEBOT_TYPE="turtlebot"
 
 # modified environment variables
+export CMAKE_PREFIX_PATH="/home/nvidia/workspace/RoboND-HomeServiceRobot/catkin_ws/devel:$CMAKE_PREFIX_PATH"
+export LD_LIBRARY_PATH="/home/nvidia/workspace/RoboND-HomeServiceRobot/catkin_ws/devel/lib:/opt/ros/kinetic/lib:/opt/ros/kinetic/lib/aarch64-linux-gnu:/usr/local/cuda-9.0/lib64"
 export PKG_CONFIG_PATH="/home/nvidia/workspace/RoboND-HomeServiceRobot/catkin_ws/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PWD="/home/nvidia/workspace/RoboND-HomeServiceRobot/catkin_ws/build"
+export ROSLISP_PACKAGE_DIRECTORIES="/home/nvidia/workspace/RoboND-HomeServiceRobot/catkin_ws/devel/share/common-lisp"
+export ROS_PACKAGE_PATH="/home/nvidia/workspace/RoboND-HomeServiceRobot/catkin_ws/src:$ROS_PACKAGE_PATH"
