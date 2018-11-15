@@ -8,19 +8,19 @@
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 move_base_msgs::MoveBaseGoal setGoal(double x, double y, double z, double w) {
-	
+
 	move_base_msgs::MoveBaseGoal goal;
 
 	// set up the frame parameters
-  goal.target_pose.header.frame_id = "map";
-  goal.target_pose.header.stamp = ros::Time::now();
+	goal.target_pose.header.frame_id = "map";
+	goal.target_pose.header.stamp = ros::Time::now();
 
-  // Define a position and orientation for the robot to reach
-  goal.target_pose.pose.position.x = x;
-  goal.target_pose.pose.position.y = y;
+  	// Define a position and orientation for the robot to reach
+  	goal.target_pose.pose.position.x = x;
+  	goal.target_pose.pose.position.y = y;
 
-  goal.target_pose.pose.orientation.w = w;
-  goal.target_pose.pose.orientation.z = z;
+  	goal.target_pose.pose.orientation.w = w;
+  	goal.target_pose.pose.orientation.z = z;
 
 	return goal;
 }
@@ -28,12 +28,12 @@ move_base_msgs::MoveBaseGoal setGoal(double x, double y, double z, double w) {
 bool checkGoalStatus(MoveBaseClient& ac, std::string success_msg, std::string fail_msg){
 	bool reached_goal = false;
 
-  if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
-    ROS_INFO("%s", success_msg.c_str());
+  	if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
+    		ROS_INFO("%s", success_msg.c_str());
 		reached_goal = true;
 	}
-  else
-    ROS_INFO("%s", fail_msg.c_str());
+  	else
+    		ROS_INFO("%s", fail_msg.c_str());
 
 	return reached_goal;
 }
@@ -59,12 +59,12 @@ int main(int argc, char** argv){
   ac.sendGoal(pickup_goal);
   // Wait an infinite time for the results
   ac.waitForResult();
-	// Check if the robot reached its goal
-	bool checkPickupGoal = checkGoalStatus(ac, "Pickup zone reached", "Unable to reach pickup zone");
+  // Check if the robot reached its goal
+  bool checkPickupGoal = checkGoalStatus(ac, "Pickup zone reached", "Unable to reach pickup zone");
 
-	ROS_INFO("Picking up...");
-	// Sleep for 5 seconds
-	ros::Duration(5.0).sleep();
+  ROS_INFO("Picking up...");
+  // Sleep for 5 seconds
+  ros::Duration(5.0).sleep();
 
   // Send the goal position and orientation for the robot to reach
   ROS_INFO("Sending dropoff goal");
@@ -72,17 +72,17 @@ int main(int argc, char** argv){
 
   // Wait an infinite time for the results
   ac.waitForResult();
-	// Check if the robot reached its goal
-	bool checkDropoffGoal = checkGoalStatus(ac, "Dropoff zone reached", "Unable to reach dropoff zone");
+  // Check if the robot reached its goal
+  bool checkDropoffGoal = checkGoalStatus(ac, "Dropoff zone reached", "Unable to reach dropoff zone");
 
-	// Infom user if both goals were accomplished or not
-	if (checkPickupGoal && checkDropoffGoal)
-		ROS_INFO("Robot successfully reached both zones!");
-	else 
-		ROS_INFO("Robot did not reach both zones");
+  // Infom user if both goals were accomplished or not
+  if (checkPickupGoal && checkDropoffGoal)
+	ROS_INFO("Robot successfully reached both zones!");
+  else 
+	ROS_INFO("Robot did not reach both zones");
 
-	// Sleep for 5 seconds
-	ros::Duration(5.0).sleep();
+  // Sleep for 5 seconds
+  ros::Duration(5.0).sleep();
 
   return 0;
 }
