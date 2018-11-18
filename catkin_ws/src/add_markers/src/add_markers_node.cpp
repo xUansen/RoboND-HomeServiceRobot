@@ -3,20 +3,21 @@
 #include <visualization_msgs/Marker.h>
 
 class AddMarker {
+
 private:
     ros::NodeHandle n;
     ros::Publisher marker_pub;
     ros::Subscriber odom_sub;
     visualization_msgs::Marker marker;
-    double pickupZone[2] = {3.53071165085, 7.02457809448};
-    double dropoffZone[2] = {-4.454413414, 6.56948661804};
+    double pickupZone[2] = {3.50, 7.0};
+    double dropoffZone[2] = {4, 0};
     double threshold;
-		const int threshold_multiplier = 3;
+    const int threshold_multiplier = 3;
 
 public:
     AddMarker() {
         marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-        odom_sub = n.subscribe("/odom", 1, &AddMarker::odomCallback, this);
+        odom_sub = n.subscribe("/robot_position", 1, &AddMarker::odomCallback, this);
 
         // initialize marker and show marker at pickup zone
         // Set the frame ID and timestamp.  See the TF tutorials for information on these.
@@ -40,9 +41,9 @@ public:
         marker.scale.z = 0.25;
 
         // Set the color -- be sure to set alpha to something non-zero!
-        marker.color.r = 1.0f;
-        marker.color.g = 0.0f;
-        marker.color.b = 0.0f;
+        marker.color.r = 0.0f;
+        marker.color.g = 1.0f;
+        marker.color.b = 1.0f;
         marker.color.a = 1.0;
 
         // Set marker's initial coordinates
@@ -52,8 +53,7 @@ public:
 
         threshold = marker.scale.x;
 
-				publishMarker();
-
+	publishMarker();
     }
 
     void odomCallback(const nav_msgs::Odometry::ConstPtr &msg) {
@@ -73,13 +73,13 @@ public:
             // hide marker and set it to new coordinates
             setMarkerPosition(dropoffZone[0], dropoffZone[1]);
             marker.color.a = 0.0;
-						ROS_INFO("At pickup location...");
+	    ROS_INFO("At pickup location...");
         } else if (atDropoffZone) {
             marker.color.a = 1.0;
-						ROS_INFO("At dropoff location...");
+	    ROS_INFO("At dropoff location...");
         }
 
-				// publish marker
+	// publish marker
         publishMarker();
 
     }
@@ -106,6 +106,7 @@ int main(int argc, char **argv) {
     ros::init(argc, argv, "add_markers");
 
     AddMarker addMarker;
+    
     ros::spin();
 
     return 0;
